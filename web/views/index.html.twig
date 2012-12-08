@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>et7wro</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,700,800' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		</h1>.</h1>
+
+		<table>
+		    <tr>
+                        <td>Czujnik</td>
+                        <td>Pomiar</td>
+                    </tr>
+
+		    {% for measure in measures %}
+		    <tr>
+                        <td>{{ measure.name }}</td>
+                        <td>{{ measure.value }}</td>
+                    </tr>
+                    {% endfor %}
+		</table>	
+
+	</body>
+</html>
