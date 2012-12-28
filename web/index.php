@@ -21,6 +21,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
+$twig = $app['twig'];
+$twig->addExtension(new \Entea\Twig\Extension\AssetExtension($app));
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 $app->get('/', function() use ($app) {
     $query = 'SELECT s.uid as uid, s.name as name, m.value as value
@@ -59,7 +62,8 @@ $app->get('/', function() use ($app) {
     return $app['twig']->render('index.html.twig', array(
         'data' => $data,
     ));
-}); 
+})
+->bind('homepage'); 
 
 
 $app->get('/data', function(Request $request) use ($app) {
@@ -78,6 +82,11 @@ $app->get('/data', function(Request $request) use ($app) {
 
     return $request->get('callback')."(".json_encode($measures).");";
 });
+
+$app->get('/prognoza', function(Request $request) use ($app) {
+    return $app['twig']->render('forecast.html.twig');
+})
+->bind('forecast');
 
 
 $app->post('/measure', function(Request $request) use ($app) { 
