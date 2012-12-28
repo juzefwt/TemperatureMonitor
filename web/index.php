@@ -67,7 +67,7 @@ $app->get('/data', function(Request $request) use ($app) {
     $query = 'SELECT m.timestamp as timestamp, m.value as value
             FROM measures m INNER JOIN sensors s ON (m.sensor_id = s.id) 
             WHERE s.uid LIKE ? AND UNIX_TIMESTAMP(timestamp) > ?';
-    $data = $app['db']->fetchAll($query);
+    $data = $app['db']->fetchAll($query, array($uid, strtotime('today')));
 
     foreach ($data as $row) {
         $measures[] = array(strtotime($row['timestamp']." +1 hours")*1000, (double) $row['value']);
