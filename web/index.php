@@ -11,7 +11,10 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
         'driver'   => 'pdo_mysql',
         'dbname'     => 'winkiel',
         'user' => 'root',
-        'password' => 'PLUGQ91I'
+        'password' => 'PLUGQ91I',
+//         'dbname'     => 'winkiel',
+//         'user' => 'winkiel',
+//         'password' => 'weatherdataandstuff',
     ),
 ));
 
