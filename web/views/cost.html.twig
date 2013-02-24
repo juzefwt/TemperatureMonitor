@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% set active_page = 'index' %}
+{% block body %}
+
+<div class="span9">
+  <div class="hero-unit">
+    <h2>Zużycie energii</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Średnia temp. wewnątrz</th>
+          <th>Średnia temp. na zewnątrz</th>
+          <th>Straty energii (kWh)</th>
+          <th>Koszt ogrzewania</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in data %}
+        <tr>
+          <td>{{ item.date }}</td>
+          <td>{{ item.avg_in }}</td>
+          <td>{{ item.avg_out }}</td>
+          <td>{{ item.energy }}</td>
+          <td>{{ item.cost }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div><!--/span-->
+
+{% endblock %}

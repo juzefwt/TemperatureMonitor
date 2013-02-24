@@ -64,6 +64,7 @@
               <li class="nav-header">Menu</li>
               <li {% if active_page == 'index' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('homepage') }}">Aktualne pomiary</a></li>
               <li {% if active_page == 'forecast' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('forecast') }}">Prognoza</a></li>
+              <li {% if active_page == 'cost' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('cost') }}">Koszty</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->

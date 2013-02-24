@@ -1,6 +1,8 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use Winkiel\DatePeriod;
+use Winkiel\EnergyCalculator;
 
 require_once __DIR__.'/../vendor/autoload.php'; 
 
@@ -87,6 +89,34 @@ $app->get('/prognoza', function(Request $request) use ($app) {
     return $app['twig']->render('forecast.html.twig');
 })
 ->bind('forecast');
+
+$app->get('/koszty', function(Request $request) use ($app) {
+
+    $startDate = new \DateTime(date('Y-m-01', strtotime('today')));
+    $endDate = new \DateTime('today');
+    $period = DatePeriod::createDatesRange($startDate, $endDate);
+
+    $avgIn = EnergyCalculator::getDailyAvg($app, 'in', $startDate, $endDate);
+    $avgOut = EnergyCalculator::getDailyAvg($app, 'out', $startDate, $endDate);
+
+    $data = array();
+    foreach ($period->getDates() as $date)
+    {
+        $energy = EnergyCalculator::calculateEnergyLoss($avgIn[$date->format('Y-m-d')], $avgOut[$date->format('Y-m-d')]);
+        $data[] = array(
+            'date' => $date->format('d-m-Y'),
+            'avg_in' => $avgIn[$date->format('Y-m-d')],
+            'avg_out' => $avgOut[$date->format('Y-m-d')],
+            'energy' => $energy,
+            'cost' => EnergyCalculator::calculateEnergyCost($energy),
+        );
+    }
+
+    return $app['twig']->render('cost.html.twig', array(
+        'data' => $data,
+    ));
+})
+->bind('cost');
 
 
 $app->post('/measure', function(Request $request) use ($app) { 
