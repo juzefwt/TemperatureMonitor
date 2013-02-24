@@ -101,14 +101,17 @@ $app->get('/koszty', function(Request $request) use ($app) {
     {
         $avgIn = EnergyCalculator::getDailyAvg($app, 'in', $date);
         $avgOut = EnergyCalculator::getDailyAvg($app, 'out', $date);
-        $energy = EnergyCalculator::calculateEnergyLoss($avgIn, $avgOut);
+        $energy = EnergyCalculator::calculateEnergyLoss($avgIn, $avgOut, 24);
+        $coal = EnergyCalculator::calculateCoalConsumption($energy);
 
         $data[] = array(
             'date' => $date->format('d-m-Y'),
-            'avg_in' => $avgIn,
-            'avg_out' => $avgOut,
-            'energy' => $energy,
-            'cost' => EnergyCalculator::calculateEnergyCost($energy),
+            'avg_in' => number_format($avgIn, 2),
+            'avg_out' => number_format($avgOut, 2),
+            'energy' => number_format($energy, 2),
+            'coal' => number_format($coal, 2),
+            'cost' => number_format(EnergyCalculator::calculateCoalCost($coal), 2),
+
         );
     }
 
