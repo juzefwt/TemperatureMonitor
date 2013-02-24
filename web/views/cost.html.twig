@@ -11,8 +11,8 @@
           <th>Data</th>
           <th>Śr. temp. wewnątrz</th>
           <th>Śr. temp. na zewnątrz</th>
-          <th>Straty energii (kWh)</th>
-          <th>Zużycie węgla (kg)</th>
+          <th>Straty energii</th>
+          <th>Zużycie węgla</th>
           <th>Koszt ogrzewania</th>
         </tr>
       </thead>
@@ -20,11 +20,11 @@
         {% for item in data %}
         <tr>
           <td>{{ item.date }}</td>
-          <td>{{ item.avg_in }}</td>
-          <td>{{ item.avg_out }}</td>
-          <td>{{ item.energy }}</td>
-          <td>{{ item.coal }}</td>
-          <td>{{ item.cost }}</td>
+          <td>{{ item.avg_in }}&deg;C</td>
+          <td>{{ item.avg_out }}&deg;C</td>
+          <td>{{ item.energy }}kWh</td>
+          <td>{{ item.coal }}kg</td>
+          <td>{{ item.cost }}zł</td>
         </tr>
         {% endfor %}
       </tbody>
