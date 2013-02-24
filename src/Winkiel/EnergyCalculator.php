@@ -7,7 +7,7 @@ class EnergyCalculator {
     const THERMAL_INSULATION = 100; // W/K
     const COAL_COST = 780; // zł/t
     const COAL_CALORIFIC_VALUE = 24; // MJ
-    const KETTLE_EFFICIENCY = 0.7;
+    const KETTLE_EFFICIENCY = 0.5;
 
     public static function getDailyAvg($app, $sensorUid, \DateTime $date)
     {
