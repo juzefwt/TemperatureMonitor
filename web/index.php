@@ -96,17 +96,17 @@ $app->get('/koszty', function(Request $request) use ($app) {
     $endDate = new \DateTime('today');
     $period = DatePeriod::createDatesRange($startDate, $endDate);
 
-    $avgIn = EnergyCalculator::getDailyAvg($app, 'in', $startDate, $endDate);
-    $avgOut = EnergyCalculator::getDailyAvg($app, 'out', $startDate, $endDate);
-
     $data = array();
     foreach ($period->getDates() as $date)
     {
-        $energy = EnergyCalculator::calculateEnergyLoss($avgIn[$date->format('Y-m-d')], $avgOut[$date->format('Y-m-d')]);
+        $avgIn = EnergyCalculator::getDailyAvg($app, 'in', $date);
+        $avgOut = EnergyCalculator::getDailyAvg($app, 'out', $date);
+        $energy = EnergyCalculator::calculateEnergyLoss($avgIn, $avgOut);
+
         $data[] = array(
             'date' => $date->format('d-m-Y'),
-            'avg_in' => $avgIn[$date->format('Y-m-d')],
-            'avg_out' => $avgOut[$date->format('Y-m-d')],
+            'avg_in' => $avgIn,
+            'avg_out' => $avgOut,
             'energy' => $energy,
             'cost' => EnergyCalculator::calculateEnergyCost($energy),
         );

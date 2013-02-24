@@ -7,8 +7,11 @@ class EnergyCalculator {
     const THERMAL_INSULATION = 100; // W/K
     const ENERGY_COST = 0.3; // zł
 
-    public static function getDailyAvg($app, $sensorUid, $startDate, $endDate)
+    public static function getDailyAvg($app, $sensorUid, \DateTime $date)
     {
+        $startDate = clone $date;
+        $endDate = new \DateTime(date('Y-m-d', strtotime($date->format('Y-m-d') . ' +1 day')));
+
         $query = '
           SELECT
             AVG(m.value) as avg, UNIX_TIMESTAMP(m.timestamp) as timestamp 
@@ -23,14 +26,8 @@ class EnergyCalculator {
         ';
 
         $raw = $app['db']->fetchAll($query, array($sensorUid, $startDate->format('Y-m-d'), $endDate->format('Y-m-d')));
-        $data = array();
 
-        foreach ($raw as $item)
-        {
-            $data[date('Y-m-d', $item['timestamp'])] = $item['avg'];
-        }
-
-        return $data;
+        return $raw[0]['avg'];
     }
 
     public static function calculateEnergyLoss($indoorTemp, $outdoorTemp, $periodInHours)
