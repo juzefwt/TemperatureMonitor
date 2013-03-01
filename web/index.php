@@ -73,9 +73,18 @@ $app->get('/data', function(Request $request) use ($app) {
     $uid = $request->get('uid');
 
     $measures = array();
-    $query = 'SELECT m.timestamp as timestamp, m.value as value
-            FROM measures m INNER JOIN sensors s ON (m.sensor_id = s.id) 
-            WHERE s.uid LIKE ? AND UNIX_TIMESTAMP(timestamp) > ?';
+    $query = '
+        SELECT *
+        FROM (
+            SELECT
+                @row := @row +1 AS rownum, m.timestamp as timestamp, m.value as value
+            FROM (
+                SELECT @row :=0) r, measures m INNER JOIN sensors s ON (m.sensor_id = s.id) WHERE s.uid LIKE ?
+            ) ranked
+        WHERE
+            rownum % 5 = 1
+            AND UNIX_TIMESTAMP(timestamp) > ?
+    ';
     $data = $app['db']->fetchAll($query, array($uid, strtotime('today')));
 
     foreach ($data as $row) {
