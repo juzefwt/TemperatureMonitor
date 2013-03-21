@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% set active_page = 'resume' %}
+{% block body %}
+
+<div class="span9">
+  <div class="hero-unit">
+    <h2>Podsumowanie</h2>
+      <h3>Cały okres</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Temperatura</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Średnia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Na zewnątrz</td>
+            <td>{{ overallMinOutdoor }}&deg;C</td>
+            <td>{{ overallMaxOutdoor }}&deg;C</td>
+            <td>{{ overallAvgOutdoor }}&deg;C</td>
+          </tr>
+          <tr>
+            <td>Wewnątrz</td>
+            <td>{{ overallMinIndoor }}&deg;C</td>
+            <td>{{ overallMaxIndoor }}&deg;C</td>
+            <td>{{ overallAvgIndoor }}&deg;C</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div><!--/span-->
+
+{% endblock %}

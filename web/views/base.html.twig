@@ -51,6 +51,7 @@
             <ul class="nav">
               <li {% if active_page == 'index' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('homepage') }}">Start</a></li>
               <li {% if active_page == 'forecast' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('forecast') }}">Prognoza</a></li>
+              <li {% if active_page == 'resume' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('resume') }}">Podsumowanie</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -66,6 +67,7 @@
               <li {% if active_page == 'index' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('homepage') }}">Aktualne pomiary</a></li>
               <li {% if active_page == 'forecast' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('forecast') }}">Prognoza</a></li>
               <li {% if active_page == 'cost' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('cost') }}">Koszty</a></li>
+              <li {% if active_page == 'resume' %} class="active"{% endif %}><a href="{{ app.url_generator.generate('resume') }}">Podsumowanie</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->

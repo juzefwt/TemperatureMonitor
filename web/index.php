@@ -3,6 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use Winkiel\DatePeriod;
 use Winkiel\EnergyCalculator;
+use Winkiel\Statistics;
 
 require_once __DIR__.'/../vendor/autoload.php'; 
 
@@ -149,7 +150,28 @@ $app->post('/measure', function(Request $request) use ($app) {
     }
 
     return "OK";
-}); 
+});
+
+$app->get('/podsumowanie', function(Request $request) use ($app) {
+
+    $stats = new Statistics($app['db']);
+    $overallMinOutdoor = $stats->getOverallTemperature('MIN', 'out');
+    $overallMaxOutdoor = $stats->getOverallTemperature('MAX', 'out');
+    $overallAvgOutdoor = $stats->getOverallTemperature('AVG', 'out');
+    $overallMinIndoor = $stats->getOverallTemperature('MIN', 'in');
+    $overallMaxIndoor = $stats->getOverallTemperature('MAX', 'in');
+    $overallAvgIndoor = $stats->getOverallTemperature('AVG', 'in');
+
+    return $app['twig']->render('resume.html.twig', array(
+        'overallMinOutdoor' => $overallMinOutdoor,
+        'overallMaxOutdoor' => $overallMaxOutdoor,
+        'overallAvgOutdoor' => $overallAvgOutdoor,
+        'overallMinIndoor' => $overallMinIndoor,
+        'overallMaxIndoor' => $overallMaxIndoor,
+        'overallAvgIndoor' => $overallAvgIndoor,
+    ));
+})
+->bind('resume');
 
 
 $app->run(); 
