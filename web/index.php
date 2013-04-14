@@ -173,5 +173,41 @@ $app->get('/podsumowanie', function(Request $request) use ($app) {
 })
 ->bind('resume');
 
+$app->get('/resume_chart_data', function(Request $request) use ($app) {
+
+    $query = '
+        SELECT
+            uid,
+            date_format( timestamp, \'%Y-%m-%d\' ) AS moment,
+            AVG(value) AS avg
+        FROM `archive` 
+        INNER JOIN sensors ON ( archive.sensor_id = sensors.id ) 
+        WHERE uid IN (?, ?)
+        GROUP BY uid, moment
+        UNION
+        SELECT
+            uid,
+            date_format( timestamp, \'%Y-%m-%d\' ) AS moment,
+            AVG(value) AS avg
+        FROM `measures` 
+        INNER JOIN sensors ON (measures.sensor_id = sensors.id ) 
+        WHERE uid IN (?, ?)
+        GROUP BY uid, moment
+    ';
+    $data = $app['db']->fetchAll($query, array('in', 'out', 'in', 'out'));
+
+    $stuff = array();
+    foreach ($data as $row) {
+        $stuff[$row['uid']][] = array(
+            $row['moment'],
+            round((double) $row['avg'], 2)
+        );
+        $stuff['dates'][] = $row['moment'];
+    }
+    $stuff['dates'] = array_unique($stuff['dates']);
+
+    return $request->get('callback')."(".json_encode($stuff).");";
+});
+
 
 $app->run(); 
