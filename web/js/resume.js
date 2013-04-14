@@ -27,26 +27,44 @@ $(function () {
                 text: 'grudzień 2012 - marzec 2013'
             },
             xAxis: {
-                categories: xAxisCategories
+                categories: xAxisCategories,
+                labels: {
+                    step: 5,
+                    rotation: -45,
+                    align: 'right',
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
             },
             yAxis: {
                 title: {
                     text: 'Temperatura (°C)'
-                }
+                },
+                alternateGridColor: '#FDFFD5',
+                labels: {
+                    step: 2,
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                tickInterval: 1.0
             },
             tooltip: {
-                enabled: true,
-                formatter: function() {
-                    return '<b>'+ this.series.name +'</b><br/>'+
-                        this.x +': '+ this.y +'°C';
-                }
+                shared: true,
+                crosshairs: true
             },
             plotOptions: {
                 line: {
                     dataLabels: {
-                        enabled: true
+                        enabled: false
                     },
-                    enableMouseTracking: false
+                    enableMouseTracking: true,
+                    marker: {
+                        enabled: false
+                    }
                 }
             },
             series: seriesOptions
