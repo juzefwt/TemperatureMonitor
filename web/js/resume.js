@@ -2,7 +2,7 @@ $(function () {
     var seriesOptions = [];
     var xAxisCategories = [];
     
-    $.getJSON('http://localhost/winkiel/web/index.php/resume_chart_data?callback=?', function(data) {            
+    $.getJSON('http://winkiel.treter.pl/resume_chart_data?callback=?', function(data) {            
             seriesOptions = [{
                 name: 'Temp. wewn.',
                 data: data['in']
